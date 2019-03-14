@@ -179,16 +179,16 @@ class NARModuleModel():
                                dtype=tf.float32)
 
         with tf.variable_scope("articles_status"):
-            self.articles_pop = tf.placeholder(name="articles_pop",
-                                               shape=[self.items_vocab_size],
-                                               dtype=tf.int64)
-            tf.summary.scalar('total_items_clicked', family='stats', tensor=tf.count_nonzero(self.articles_pop))
-
-            self.articles_pop_recently_clicked = tf.placeholder(name="articles_pop_recently_clicked",
-                                                                shape=[self.items_vocab_size],
-                                                                dtype=tf.int64)
-            tf.summary.scalar('total_items_clicked_recently', family='stats',
-                              tensor=tf.count_nonzero(self.articles_pop_recently_clicked))
+            # self.articles_pop = tf.placeholder(name="articles_pop",
+            #                                    shape=[self.items_vocab_size],
+            #                                    dtype=tf.int64)
+            # tf.summary.scalar('total_items_clicked', family='stats', tensor=tf.count_nonzero(self.articles_pop))
+            #
+            # self.articles_pop_recently_clicked = tf.placeholder(name="articles_pop_recently_clicked",
+            #                                                     shape=[self.items_vocab_size],
+            #                                                     dtype=tf.int64)
+            # tf.summary.scalar('total_items_clicked_recently', family='stats',
+            #                   tensor=tf.count_nonzero(self.articles_pop_recently_clicked))
 
             self.pop_recent_items_buffer = tf.placeholder(name="pop_recent_items",
                                                           shape=[recent_clicks_buffer_size],
@@ -957,7 +957,7 @@ class ClickedItemsState:
     def update_items_state(self, batch_clicked_items):
         batch_items_nonzero = self._get_non_zero_items_vector(batch_clicked_items)
         self._update_recently_clicked_items_buffer(batch_items_nonzero)
-        self._update_pop_items(batch_items_nonzero)
+        # self._update_pop_items(batch_items_nonzero)
 
     def _update_recently_clicked_items_buffer(self, batch_items_nonzero):
         # TODO: Keep on buffer based on time (e.g. last X hours), and not on last N clicks
@@ -1038,9 +1038,9 @@ class ItemsStateUpdaterHook(tf.train.SessionRunHook):
             fetches['predicted_item_ids'] = self.model.predicted_item_ids
 
         feed_dict = {
-            self.model.articles_pop: self.clicked_items_state.get_articles_pop(),
+#            self.model.articles_pop: self.clicked_items_state.get_articles_pop(),
             self.model.pop_recent_items_buffer: self.clicked_items_state.get_recent_clicks_buffer(),
-            self.model.articles_pop_recently_clicked: self.clicked_items_state.get_articles_pop_from_recent_clicks_buffer()
+#            self.model.articles_pop_recently_clicked: self.clicked_items_state.get_articles_pop_from_recent_clicks_buffer()
         }
 
         return tf.train.SessionRunArgs(fetches=fetches,
@@ -1138,7 +1138,7 @@ class ItemsStateUpdaterHook(tf.train.SessionRunHook):
         batch_clicked_items = np.concatenate([clicked_items, last_item_label], axis=1)
         # Updating items state
         self.clicked_items_state.update_items_state(batch_clicked_items)
-        self.clicked_items_state.update_items_coocurrences(batch_clicked_items)
+        # self.clicked_items_state.update_items_coocurrences(batch_clicked_items)
 
     def end(self, session=None):
         if self.mode == tf.estimator.ModeKeys.EVAL:
