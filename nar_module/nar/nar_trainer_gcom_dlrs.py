@@ -111,8 +111,8 @@ def load_acr_module_resources(articles_metadata_csv_path, articles_content_embed
 
 
 def load_external_embeddings(emb_path):
-    # emb = np.load(emb_path)
-    emb = np.zeros((5251874, 256), dtype=np.float32)
+    emb = np.load(emb_path)
+    #emb = np.zeros((5251874, 256), dtype=np.float32)
     return emb
 
 

@@ -169,7 +169,7 @@ class NARModuleModel():
             #                                                        dtype=get_tf_dtype(
             #                                                            articles_features_config[feature_name]['dtype']))
             #
-            self.items_vocab_size = 5251874#articles_features_config['article_id']['cardinality']
+            self.items_vocab_size = content_article_embeddings_shape[0]#articles_features_config['article_id']['cardinality']
             # self.publishers_vocab_size = articles_features_config['sequence_features']['publisher_id']['cardinality']
             # self.categories_vocab_size = articles_features_config['sequence_features']['category_id']['cardinality']
 
