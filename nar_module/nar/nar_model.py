@@ -629,7 +629,7 @@ class NARModuleModel():
             # item_clicked_interactions_embedding = self.items_cat_embed(item_ids)
 
             items_acr_embeddings_lookup = tf.nn.embedding_lookup(self.content_embedding_variable, ids=item_ids)
-
+            return items_acr_embeddings_lookup
             # Obtaining item features for specified items (e.g. clicked, negative samples)
             # item_contextual_features = {}
             # for feature_name in self.articles_features_config:
