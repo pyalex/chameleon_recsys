@@ -63,7 +63,7 @@ def load_sessions_json(files, id_map):
             for line in the_input:
                 row = json.loads(line)
                 page_ids = [id_map[page_id] for page_id in row['pageIds'] if page_id in id_map]
-                if len(page_ids) < 3:
+                if len(page_ids) < 5:
                     continue
 
                 yield dict(
