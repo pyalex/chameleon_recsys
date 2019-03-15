@@ -370,7 +370,7 @@ class NARModuleModel():
 
                 rnn_outputs_fc2 = tf.layers.dense(rnn_outputs_fc1_dropout, CAR_embedding_size,
                                                   # activation=tf.nn.relu,
-                                                  activation=tf.nn.tanh,
+                                                  # activation=tf.nn.tanh,
                                                   name='FC2',
                                                   kernel_regularizer=tf.contrib.layers.l2_regularizer(
                                                       self.reg_weight_decay))
@@ -391,7 +391,7 @@ class NARModuleModel():
             with tf.variable_scope("recommendations_ranking"):
                 with tf.variable_scope("cos_sim_positive"):
                     # Computing Cosine similarity between predicted embedding and positive embedding (label)
-                    cos_sim_positive = tf.reduce_sum(tf.multiply(positive_contextual_item_embedding,
+                    cos_sim_positive = tf.reduce_sum(tf.multiply(input_user_items_features,
                                                                  predicted_contextual_item_embedding),
                                                      axis=-1, keepdims=True)
                     # print("cos_sim_positive", cos_sim_positive.shape)
@@ -401,7 +401,7 @@ class NARModuleModel():
                 with tf.variable_scope("cos_sim_negative"):
                     # Computing Cosine similarity between predicted embedding and negative items embedding
                     cos_sim_negative = tf.reduce_sum(tf.multiply(
-                        tf.expand_dims(negative_contextual_item_embedding, 1),
+                        tf.expand_dims(negative_items_features, 1),
                         tf.expand_dims(predicted_contextual_item_embedding, 2)
                     ), axis=-1)
                     # print("cos_sim_negative", cos_sim_negative.shape)
